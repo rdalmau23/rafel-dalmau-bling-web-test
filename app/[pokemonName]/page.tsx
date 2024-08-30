@@ -23,7 +23,7 @@ export default async function PokemonPage({ params }: { params: { pokemonName: s
         />
       </div>
       <h3>Weight: {pokemonObject.weight}</h3>
-      <div className="flex-col">
+      <div className="flex flex-col">
         {pokemonObject.stats.map((statObject: any) => {
           const statName = statObject.stat.name;
           const statValue = statObject.base_stat;

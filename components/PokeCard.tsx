@@ -14,7 +14,9 @@ export function PokeCard({ name }: PokemonCardProps) {
       try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
         const data = await response.json();
-        setImageUrl(data.sprites.front_default);
+        if (data && data.sprites) {
+          setImageUrl(data.sprites.front_default);
+        }
       } catch (error) {
         console.error("Error fetching Pokémon image:", error);
       }
@@ -26,17 +28,21 @@ export function PokeCard({ name }: PokemonCardProps) {
   return (
     <Link
       href={`/${name}`}
-      className="group rounded-lg border border-transparent px-5 py-4 transition-colors m-3 dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+      className="flex flex-col items-center group rounded-lg border border-transparent px-5 py-4 transition-colors m-3 dark:border-gray-500 hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
       key={name + "Card"}
     >
-      {imageUrl && (
+      {imageUrl ? (
         <Image
           src={imageUrl}
           alt={name}
-          width={80} 
+          width={80}
           height={80}
           className="mb-3"
         />
+      ) : (
+        <div className="w-20 h-20 bg-gray-200 flex items-center justify-center rounded">
+          <span>Loading...</span>
+        </div>
       )}
       <h2 className="text-2xl font-semibold">
         {name.charAt(0).toUpperCase() + name.slice(1)}
